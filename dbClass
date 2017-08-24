@@ -1,0 +1,43 @@
+<?php
+$dbms = 'mysql';
+
+$host = 'localhost'; //数据库主机名
+
+$dbName = 'test'; //使用的数据库
+
+$user = 'root'; //数据库连接用户名
+
+$pass = ''; //对应的密码
+
+$dsn = "$dbms:host=$host;dbname=$dbName";
+
+class db extends PDO {
+	public function __construct() {
+		try {
+			parent :: __construct("$GLOBALS[dsn]", $GLOBALS['user'], $GLOBALS['pass']);
+		} catch (PDOException $e) {
+			die("Error: " . $e->__toString() . "<br/>");
+		}
+	}
+
+	public final function query($sql) {
+		try {
+			return parent :: query($this->setString($sql));
+		} catch (PDOException $e) {
+			die("Error: " . $e->__toString() . "<br/>");
+		}
+	}
+
+	private final function setString($sql) {
+		echo "我要处理一下$sql";
+		return $sql;
+	}
+}
+
+$db = new db();
+$db->setAttribute(PDO :: ATTR_CASE, PDO :: CASE_UPPER);
+foreach ($db->query('SELECT * from user') as $row) {
+	print_r($row);
+}
+$db->exec('DELETE FROM `user`');
+?>
