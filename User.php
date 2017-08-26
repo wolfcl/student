@@ -6,14 +6,21 @@ session_start();
 class User{
 	var $db;
 	/**
-	 * ¹¹Ôìº¯Êý£¬Á¬½ÓÊý¾Ý¿â
+	 * æž„é€ å‡½æ•°ï¼Œè¿žæŽ¥æ•°æ®åº“
 	 */
 	function __construct(){
 		$this->db = new DBClass("mysql:dbname=test;host=localhost",'root','');
 	}
 
 	/**
-	 * ÓÃ»§µÇÂ¼
+	 * åŠ å¯†ç”¨æˆ·å¯†ç 
+	 */
+	function password($password){
+		return md5(md5($password).'wolfcl.cn');
+	}
+
+	/**
+	 * ç”¨æˆ·ç™»å½•
 	 */
 	function login($username,$password){
 		$_user = $this->db->get_one("SELECT * FROM user WHERE username = ? AND password = ? ",array($username,$password));
@@ -27,7 +34,7 @@ class User{
 	}
 
 	/**
-	 * Ìí¼ÓÓÃ»§
+	 * æ·»åŠ ç”¨æˆ·
 	 */
 	function add_user($username,$password){
 		$_bool = $this->db->get_col("SELECT COUNT(1) FROM user WHERE username = ?", array($username));
@@ -43,11 +50,11 @@ class User{
 		}
 	}
 		/**
-	 * ÍË³öµÇÂ¼
+	 * é€€å‡ºç™»å½•
 	 *
 	 */
 	function logout(){
-		$_SESSION['user_id'] = '';
+		$_SESSION['username'] = '';
 		return 1;
 	}
 }
