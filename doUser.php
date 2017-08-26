@@ -5,34 +5,33 @@ $user = new User();
 if ($_REQUEST['submit']) {
 	$username = $_POST['username'];
 	$password = $_POST['password'];
+	$passwords = $user->password($password); //åŠ å¯†ç”¨æˆ·å¯†ç 
 	if ($_REQUEST['act'] == 'login') {
-		if ($user->login($username, $password)) {
-			echo '»¶Ó­' . $_SESSION['username'] . '<br />';
-			echo 'µÇÂ¼³É¹¦£¡';
-			echo '<a href="doUser.php?act=logout">×¢Ïú</a>';
+		if ($user->login($username, $passwords)) {
+			echo 'æ¬¢è¿' . $_SESSION['username'] . '<br />';
+			echo 'ç™»å½•æˆåŠŸï¼';
+			echo '<a href="doUser.php?act=logout">æ³¨é”€</a>';
 		} else {
-			echo 'µÇÂ¼Ê§°Ü! <a href ="./UserLogin.php">·µ»Ø</a>';
+			echo 'ç™»å½•å¤±è´¥! <a href ="./UserLogin.php">è¿”å›</a>';
 		}
 	}
 	elseif ($_REQUEST['act'] == 'add_user') {
-		$result = $user->add_user($username, $password);
+		$result = $user->add_user($username, $passwords);
 		if ($result == -1) {
-			echo "´ËÓÃ»§ {$username} ÒÑ¾­´æÔÚ,<a href ='./UserLogin.php'>·µ»Ø</a>";
+			echo "æ­¤ç”¨æˆ· {$username} å·²ç»å­˜åœ¨,<a href ='./UserLogin.php'>è¿”å›</a>";
 		}
 		elseif ($result == 1) {
-			echo "×¢²á³É¹¦" . $_SESSION['username'] . "<br />";
-			echo '<a href="doUser.php?act=logout">×¢Ïú</a>';
+			echo "æ³¨å†ŒæˆåŠŸ" . $_SESSION['username'] . "<br />";
+			echo '<a href="doUser.php?act=logout">æ³¨é”€</a>';
 		} else {
-			echo "×¢²áÊ§°Ü£¡";
-
+			echo "æ³¨å†Œå¤±è´¥ï¼";
 		}
-
 	}
 }
 elseif ($_REQUEST['act'] == 'logout') {
 	$user->logout();
-	echo '×¢Ïú³É¹¦£¡ <a href ="./UserLogin.php">·µ»Ø</a>';
+	echo 'æ³¨é”€æˆåŠŸï¼ <a href ="./UserLogin.php">è¿”å›</a>';
 } else {
-	echo "²ÎÊı´íÎó£¡";
+	echo 'å‚æ•°é”™è¯¯ï¼';
 }
 ?>
