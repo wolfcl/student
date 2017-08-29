@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*
  * Created on 2017-8-2
  *
@@ -6,18 +6,18 @@
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
 ?>
-<b>ʹ��MVC���ʵ�ֵ��û�ע��ϵͳ</b><hr />
-<form id="regterForm" name="regterForm" method="post" action="doUser.php?act=add_user">
-
+<b>使用MVC框架实现的用户注册系统</b><hr />
+<a href="index.php">登录</a>
+<form id="regterForm" name="regterForm" method="post" action="doUser.php?act=useradd">
   <table>
     <tr>
-      <td>�û�����</td><td><input type="text" name="username" id="username" size="25"/></td>
+      <td>用户名</td><td><input type="text" name="username" id="username" size="25"/></td>
     </tr>
     <tr>
-      <td>���룺</td><td><input type="password" name="password" id="password" size="25" maxlength="20"/></td>
+      <td>密码</td><td><input type="password" name="password" id="password" size="25" maxlength="20"/></td>
     </tr>
     <tr>
-      <td>&nbsp;</td><td><input type="submit" name="submit" value="�ύ"/>&nbsp;&nbsp;<input type="reset" name="reset" value="����"/></td>
+      <td>&nbsp;</td><td><input type="submit" name="submit" value="提交"/>&nbsp;&nbsp;<input type="reset" name="reset" value="重置"/></td>
     </tr>
   </table>
 </form>

@@ -1,8 +1,11 @@
 <?php
+
 require_once('DBClass.php');
 session_start();
-
-class User{
+/**
+ * 学生信息类
+ */
+class Student{
 	var $db;
 	/**
 	 * 构造函数，连接数据库
@@ -18,6 +21,13 @@ class User{
 		return md5(md5($password).'wolfcl.cn');
 	}
 
+	function getStudentList(){
+		$sql = "SELECT * FROM `student`";
+		$this->db->query('set names utf8;');	//设置编码
+		$_student = $this->db->get_all($sql,array());
+		return $_student;
+	}
+
 	/**
 	 * 用户登录
 	 */
@@ -30,13 +40,6 @@ class User{
 		}else{
 			return false;
 		}
-	}
-
-	function userList(){
-		$sql = "select * from user";
-		$_user = $this->db->get_all($sql,array());
-		print_r($_user);
-		return $_user;
 	}
 
 	/**

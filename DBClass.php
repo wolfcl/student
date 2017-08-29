@@ -1,21 +1,23 @@
-<?php
-
+ï»¿<?php
+/**
+ * æ•°æ®å¤„ç†ç±»
+ */
 class DBClass extends PDO{
 	var $sth;
 	function execute($sql,$values=array()){
-		$this->sth = $this->prepare($sql); //Ô¤Ö´ĞĞSQLÓï¾ä£¬¿É·ÀÖ¹SQL×¢Èë
-		return $this->sth->execute($values); //Ö´ĞĞSQLÓï¾ä
+		$this->sth = $this->prepare($sql); //é¢„æ‰§è¡ŒSQLè¯­å¥ï¼Œå¯é˜²æ­¢SQLæ³¨å…¥
+		return $this->sth->execute($values); //æ‰§è¡ŒSQLè¯­å¥
 	}
 	/**
-	 * µÃµ½ËùÓĞSELECTÓï¾äÖ´ĞĞºóµÄÊı¾İ¼¯
+	 * å¾—åˆ°æ‰€æœ‰SELECTè¯­å¥æ‰§è¡Œåçš„æ•°æ®é›†
 	 *
 	 */
 	function get_all($sql,$values = array()){
-		$this->sth = $this->execute($sql,$values);
-		return $this->sth->fetchALl();
+		$this->execute($sql,$values);
+		return $this->sth->fetchAll();
 	}
 	/**
-	 * µÃµ½Ò»ÌõSELECTÓï¾äÖ´ĞĞºóµÄÊı¾İ¼¯
+	 * å¾—åˆ°ä¸€æ¡SELECTè¯­å¥æ‰§è¡Œåçš„æ•°æ®é›†
 	 *
 	 */
 	function get_one($sql,$values = array()){
@@ -23,7 +25,7 @@ class DBClass extends PDO{
 		return $this->sth->fetch();
 	}
 	/**
-	 * È¡µÃ¼ÇÂ¼ÖĞµÄÁĞÖµ
+	 * å–å¾—è®°å½•ä¸­çš„åˆ—å€¼
 	 *
 	 */
 	function get_col($sql,$values = array(), $column_number=0){
@@ -31,7 +33,7 @@ class DBClass extends PDO{
 		return $this->sth->fetchColumn($column_number);
 	}
 	/**
-	 * ÏòÊı¾İ±íÖĞ²åÈëÊı¾İ
+	 * å‘æ•°æ®è¡¨ä¸­æ’å…¥æ•°æ®
 	 */
 	function insert($table,$data){
 		$fields = array_keys($data);
@@ -40,11 +42,11 @@ class DBClass extends PDO{
 		return $this->execute($sql,array_values($data));
 	}
 	/**
-	 * ¸üĞÂÊı¾İ
+	 * æ›´æ–°æ•°æ®
 	 */
 	function update($table,$data,$where){
-		$values = $bits = $wheres = array(); 	//½¨Á¢Êı¾İ
-		foreach( $data as $k=>$v){           	//Ñ­»·¹¹½¨ĞèÒªµÄÌõ¼ş²ÎÊı
+		$values = $bits = $wheres = array(); 	//å»ºç«‹æ•°æ®
+		foreach( $data as $k=>$v){           	//å¾ªç¯æ„å»ºéœ€è¦çš„æ¡ä»¶å‚æ•°
 			$bits[] = "`$k` = ?";
 			$values[]= $v;
 		}
@@ -61,13 +63,13 @@ class DBClass extends PDO{
 		return $this->execute($sql,$values);
 	}
 	/**
-	 * É¾³ıÊı¾İ
+	 * åˆ é™¤æ•°æ®
 	 */
 	function delete($table,$field,$where){
 		if(empty($where)){
 			return false;
 		}
-		//Ô¤Ö´ĞĞÉ¾³ıÓï¾ä
+		//é¢„æ‰§è¡Œåˆ é™¤è¯­å¥
 		$this->sth = $this->prepare("DELETE FROM $table WHERE $field = ?");
 
 		if(is_array($where)){
@@ -80,13 +82,13 @@ class DBClass extends PDO{
 	}
 
 	/**
-	 * ½«Êı¾İ±íµ¼³ö³ÉSQLÓï¾ä
+	 * å°†æ•°æ®è¡¨å¯¼å‡ºæˆSQLè¯­å¥
 	 */
 	function table2sql($table){
 		$sql = array();
-		$sql[] = "DROP TABLE IF EXISTS `{$table}`;\n"; //Èç¹û´æÔÚÔòÉ¾³ı¸ÃÊı¾İ±í
-		$create_table = $this->get_one('SHOW CREATE TABLE '.$table); //·µ»Ø±í½á¹¹µÄSQLÓï¾ä
-		$sql[] = $create_table[1].";\n\n"; //½«ÈçÉÏÓï¾ä´æÈëÁÙÊ±Êı×éÖĞ
+		$sql[] = "DROP TABLE IF EXISTS `{$table}`;\n"; //å¦‚æœå­˜åœ¨åˆ™åˆ é™¤è¯¥æ•°æ®è¡¨
+		$create_table = $this->get_one('SHOW CREATE TABLE '.$table); //è¿”å›è¡¨ç»“æ„çš„SQLè¯­å¥
+		$sql[] = $create_table[1].";\n\n"; //å°†å¦‚ä¸Šè¯­å¥å­˜å…¥ä¸´æ—¶æ•°ç»„ä¸­
 		return implode('',$sql);
 	}
 	function dump_sql(){
